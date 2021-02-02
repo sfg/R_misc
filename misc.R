@@ -1,7 +1,7 @@
 replicateImpCols <- function(m) {
-    ## check columns with ';'
-    vals <- data.frame()
+    vals <- list()
     for(i in 1:nrow(m)) {
+        ## check columns with ';'
         cols <- sapply(m[i,], function(x) {
             res <- all(grepl(";", x))
         })
@@ -13,15 +13,15 @@ replicateImpCols <- function(m) {
             colnames(res) <- colnames(m)[cols]
             ## replicate "old" data
             tmp <- as.data.frame(lapply(m[i,!cols], rep, nrow(res)))
+            ## combine 'old' with replicated data
             tmp <- cbind(res, tmp)
-            tmp <- tmp[colnames(m)]
         } else {
             tmp <- m[i,]
-            tmp <- tmp[colnames(m)]
         }
-        ## combine 'old' with replicated data
-        vals <- rbind(vals, tmp)
+        tmp <- tmp[colnames(m)]
+        vals[[i]] <- list(tmp)
     }
+    vals <- do.call("rbind", vals)
     ## ready
     return(invisible(vals))
 }
