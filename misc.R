@@ -19,9 +19,9 @@ replicateImpCols <- function(m) {
             tmp <- m[i,]
         }
         tmp <- tmp[colnames(m)]
-        vals[[i]] <- list(tmp)
+        vals[[i]] <- tmp
     }
-    vals <- do.call("rbind", vals)
+    vals <- do.call("rbind", vals)    
     ## ready
     return(invisible(vals))
 }
